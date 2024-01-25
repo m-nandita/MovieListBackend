@@ -11,10 +11,9 @@ exports.add = (req, res) => {
         return;
     }
     const movie = {
-        id: req.body.id,
         title: req.body.title,
         published_year: req.body.published_year,
-        poster_img_name: 'image_' + req.body.id
+        poster_img_name: 'image_' + Date.now()
     }
     Movie.create(movie)
     .then(() => { res.status(200).send({ message: 'Successfully Added Movie'})})
@@ -24,7 +23,9 @@ exports.add = (req, res) => {
 exports.getAll = (req, res) => {
     // retreive all movies
     Movie.findAll()
-    .then(data => { res.status(200).json(data)})
+    .then(data => {
+        res.status(200).json(data)
+    })
     .catch(err => { res.status(500).send({ message: err.message || 'Some error occurred'})})
 }
 
@@ -34,6 +35,7 @@ exports.getById = (req, res) => {
     Movie.findByPk(id)
     .then(data => {
         if(data) {
+            // url = __dirname.slice(0, 15).replace('\\', '/') + 'service/uploads/' + data.poster_img_name + '.png'
             res.status(200).json(data);
         }
         else {
@@ -64,6 +66,13 @@ exports.delete = (req, res) => {
     Movie.destroy({ where: { id: id } })
     .then(row => {
         if(row >= 1) {
+            const path = __dirname.slice(0, 15) + 'service/uploads/image_' + id + '.png';
+            fs.unlink(path, (err) => {
+                if (err) {
+                    console.error(err)
+                    return
+                }
+            })
             res.status(200).send({ message: `${row} Movies deleted` });
         }
         else {
@@ -73,8 +82,18 @@ exports.delete = (req, res) => {
     .catch(err => {res.status(500).send({ message: err.message || 'Some error occurred'})})
 }
 
-exports.getPosterImg = (req, res) => {
-    // get image based on id
-    const id = req.params.id;
-    res.sendFile(__dirname.slice(0, 15) + 'service/uploads/image_' + id + '.png');
+// exports.getPosterImg = (req, res) => {
+//     // get image based on id
+//     const id = req.params.id;
+//     res.sendFile(__dirname.slice(0, 15) + 'service/uploads/image_' + id + '.png');
+// }
+
+exports.pagination = (req, res) => {
+    page = req.page;
+    limit = req.limit;
+    Movie.findAll({ offset: page, limit: limit })
+    .then(data => {
+        res.status(200).json(data)
+    })
+    .catch(err => { res.status(500).send({ message: err.message || 'Some error occurred'})})
 }

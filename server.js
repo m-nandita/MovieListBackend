@@ -11,6 +11,8 @@ app.use(express.urlencoded({extended: true}));
 
 const db = require('./src/models');
 
+app.use(express.static('./src/service/uploads'))
+
 require('./src/routes/movie.route')(app);
 
 app.listen(8081, () => {

@@ -15,13 +15,16 @@ module.exports = app => {
     router.get("/:id", movies.getById);
 
     // Edit movie by id
-    router.put('/:id', movies.update);
+    router.put('/:id', upload.single('poster_img'), movies.update);
 
     // Delete movie by id
     router.delete('/:id', movies.delete);
 
     // Get poster image by id
-    router.post('/:id', movies.getPosterImg);
+    // router.post('/:id', movies.getPosterImg);
+
+    // Pagination
+    router.get('/:page/:limit', movies.pagination);
 
     app.use('/api/movies', router);
 }
