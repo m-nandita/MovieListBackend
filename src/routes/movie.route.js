@@ -20,11 +20,8 @@ module.exports = app => {
     // Delete movie by id
     router.delete('/:id', movies.delete);
 
-    // Get poster image by id
-    // router.post('/:id', movies.getPosterImg);
-
     // Pagination
-    router.get('/:page/:limit', movies.pagination);
+    router.get('/page/:offset/:limit', movies.getPage);
 
     app.use('/api/movies', router);
 }
