@@ -1,5 +1,6 @@
 const db = require('../models');
 const fs = require('node:fs');
+
 const Movie = db.movies;
 
 const _URL = 'http://localhost:8081/images/'
@@ -17,6 +18,7 @@ exports.add = (req, res) => {
         published_year: req.body.published_year,
         poster_img_name: 'image_' + Date.now().toString().slice(0, 10)
     }
+    console.log(req.body)
     Movie.create(movie)
     .then(() => { res.status(200).send({ message: 'Successfully Added Movie'})})
     .catch(err => { res.status(500).send({ message: err.message || 'Some error occurred'})})
@@ -30,8 +32,7 @@ exports.getAll = (req, res) => {
             url = _URL + element.poster_img_name + '.png';
             element.dataValues.url = url;
         });
-        res.status(200).json(data)
-        
+        res.status(200).json(data);
     })
     .catch(err => { res.status(500).send({ message: err.message || 'Some error occurred'})})
 }
