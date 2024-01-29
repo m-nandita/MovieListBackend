@@ -18,5 +18,6 @@ db.seq = seq;
 db.Sequelize = Sequelize;
 
 db.movies = require('./movie.model')(seq, Sequelize);
+db.users = require('./user.model')(seq, Sequelize);
 
 module.exports = db;

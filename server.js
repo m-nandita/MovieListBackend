@@ -16,6 +16,7 @@ const db = require('./src/models');
 app.use("/images", express.static(__dirname + '/src/service/uploads/'));
 
 require('./src/routes/movie.route')(app);
+require('./src/routes/auth.route')(app);
 
 app.listen(8081, () => {
     console.log("Server is running on http://localhost:8081");
