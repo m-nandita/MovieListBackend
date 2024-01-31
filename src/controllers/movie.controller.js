@@ -18,7 +18,7 @@ exports.add = (req, res) => {
         published_year: req.body.published_year,
         poster_img_name: 'image_' + Date.now().toString().slice(0, 10)
     }
-    console.log(req.body)
+
     Movie.create(movie)
     .then(() => { res.status(200).send({ message: 'Successfully Added Movie'})})
     .catch(err => { res.status(500).send({ message: err.message || 'Some error occurred'})})
@@ -61,7 +61,7 @@ exports.update = (req, res) => {
     .then(data => {
         if(data) {
             old_image_name = data.dataValues.poster_img_name
-            const path = __dirname.slice(0, 15) + 'service/uploads/' + old_image_name + '.png';
+            const path = __dirname.slice(0, 24) + '/service/uploads/' + old_image_name + '.png';
             fs.unlink(path, (err) => {
                 if (err) {
                     console.error(err)
@@ -94,7 +94,7 @@ exports.delete = (req, res) => {
         if(data) {
             data.destroy({ where: { id: id }})
             .then(row => {
-                const path = __dirname.slice(0, 15) + 'service/uploads/' + data.poster_img_name + '.png';
+                const path = __dirname.slice(0, 24) + '/service/uploads/' + data.poster_img_name + '.png';
                 fs.unlink(path, (err) => {
                     if (err) {
                         console.error(err)

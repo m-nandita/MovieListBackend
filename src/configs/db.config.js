@@ -6,9 +6,9 @@ module.exports = {
     db_name: 'movie_db',
     dialect: 'mysql',
     pool: {
-        min: 0,
-        max: 5,
-        acquire: 30000,
-        idle: 10000
+        min: 0, //min number of request
+        max: 5, //max number of request
+        acquire: 30000, 
+        idle: 10000 //idle for time in ms
     }
 }
