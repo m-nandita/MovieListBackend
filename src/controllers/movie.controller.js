@@ -3,7 +3,7 @@ const fs = require('node:fs');
 
 const Movie = db.movies;
 
-const _URL = 'http://localhost:8081/images/'
+const public_url = 'http://localhost:8081/images/'
 
 exports.add = (req, res) => {
     // save movie to the database
@@ -29,7 +29,7 @@ exports.getAll = (req, res) => {
     Movie.findAll()
     .then(data => {
         data.forEach(element => {
-            url = _URL + element.poster_img_name + '.png';
+            url = public_url + element.poster_img_name + '.png';
             element.dataValues.url = url;
         });
         res.status(200).json(data);
@@ -43,7 +43,7 @@ exports.getById = (req, res) => {
     Movie.findByPk(id)
     .then(data => {
         if(data) {
-            url = _URL + data.poster_img_name + '.png';
+            url = public_url + data.poster_img_name + '.png';
             data.dataValues.url = url;
             res.status(200).json(data);
         }
@@ -117,7 +117,7 @@ exports.getPage = (req, res) => {
     Movie.findAll({ offset: parseInt(offsets), limit: parseInt(limits) })
     .then(data => {
         data.forEach(element => {
-            url = _URL + element.poster_img_name + '.png';
+            url = public_url + element.poster_img_name + '.png';
             element.dataValues.url = url;
         });
         res.status(200).json(data)
